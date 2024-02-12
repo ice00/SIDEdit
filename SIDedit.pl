@@ -1413,7 +1413,7 @@ sub AddSIDfields {
                     -textvariable => \$SIDfield{$field},
                     -width => 32)
                 ->grid(-column => 1, -columnspan => 2, -row => $row, -sticky => 'w');
-            $ENABLED_ENTRY_COLOR = $entry->cget('background') unless (defined($ENABLED_ENTRY_COLOR));
+            $ENABLED_ENTRY_COLOR = $entry->cget('-background') unless (defined($ENABLED_ENTRY_COLOR));
         }
 
         $tempwidget = $SIDframe->Checkbutton(@noBorder,
