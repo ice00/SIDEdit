@@ -423,10 +423,14 @@ sub CheckVersion {
         $SIDfield{'reserved'} = "0x0000";
     }
     elsif ($SIDfield{'version'} >= 2) {
-        $SIDfield{'version'} = 2;
         if (HexValue($SIDfield{'dataOffset'}) < 0x7C) {
             $SIDfield{'dataOffset'} = "0x007C";
         }
+
+        # actually PSID definition is up to 4
+		if ($SIDfield{'version'} > 4) {
+			$SIDfield{'version'} = 4;
+		}
     }
     UpdateSize();
     UpdateV2Fields();
@@ -439,7 +443,7 @@ sub CheckDataOffset {
     if ($SIDfield{'version'} == 1) {
         $SIDfield{'dataOffset'} = "0x0076";
     }
-    elsif ($SIDfield{'version'} == 2) {
+    elsif ($SIDfield{'version'} >= 2) {
         if (HexValue($SIDfield{'dataOffset'}) < 0x7C) {
             $SIDfield{'dataOffset'} = "0x007C";
         }
