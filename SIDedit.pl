@@ -58,7 +58,7 @@ BEGIN {
     #
     # use Tk::ROTextANSIColor;
 
-    use Audio::SID 3.03;
+    use Audio::SID 4.01;
     use File::Basename;
     use File::Copy;
     use Cwd;
@@ -884,6 +884,10 @@ sub RecalcMD5 {
     foreach $field (@SIDfields) {
         next if ($field eq 'data');
         next if (($field eq 'magicID') and ($SIDfield{'version'} == 1));
+
+        # pass Audio::SID sanity check 
+        next if (($field eq 'thirdSIDAddress') and ($SIDfield{'version'}<4));
+        next if (($field eq 'secondSIDAddress') and ($SIDfield{'version'}<3)); 
 
         if (grep(/^$field$/, @hexFields) or
             grep(/^$field$/, @c64hexFields)) {
@@ -4000,6 +4004,10 @@ sub PopulateSIDfields {
     my $field;
 
     foreach $field (@SIDfields) {
+        # pass Audio::SID sanity check
+        next if (($mySID->get('version')<4) and ($field eq 'thirdSIDAddress'));
+        next if (($mySID->get('version')<3) and ($field eq 'secondSIDAddress')); 
+
         $SIDfield{$field} = $mySID->get($field);
         unless (defined($SIDfield{$field})) {
             $SIDfield{$field} = 0;
