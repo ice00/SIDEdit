@@ -960,7 +960,7 @@ sub BuildWindow($) {
 
     SetupBindings();
     PopulateSIDfields();
-    ScanDir(1);
+    # ScanDir(1); // adding here the files will mess up the later update of frame 
 }
 
 # Pass in widget name.
