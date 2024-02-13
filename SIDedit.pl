@@ -255,7 +255,7 @@ my $reservedEntry;
 my $fileNavPopupMenu;
 
 # We find these out at run-time.
-my $DISABLED_ENTRY_COLOR;
+my $DISABLED_ENTRY_COLOR = 'grey'; 
 my $ENABLED_ENTRY_COLOR;
 my $MINWIDTH; # Minimum width and height for window to prevent "jumping" effect.
 my $MINHEIGHT;
@@ -595,33 +595,33 @@ sub HVSCLongFilename {
     $tempfilename =~ s/\s+TIME:.*$//i;
 
     # Spec chars:
-    $tempfilename =~ s/[ü]/ue/g;
-    $tempfilename =~ s/[Ü]/Ue/g;
-    $tempfilename =~ s/[øö]/oe/g;
-    $tempfilename =~ s/[ØÖ]/Oe/g;
-    $tempfilename =~ s/[ß]/ss/g;
-    $tempfilename =~ s/[àáãâ]/a/g;
-    $tempfilename =~ s/[ÀÁÃÂ]/A/g;
-    $tempfilename =~ s/[å]/aa/g;
-    $tempfilename =~ s/[Å]/Aa/g;
-    $tempfilename =~ s/[ñ]/n/g;
-    $tempfilename =~ s/[Ñ]/N/g;
-    $tempfilename =~ s/[òôõó]/o/g;
-    $tempfilename =~ s/[ÒÔÕÓ]/O/g;
-    $tempfilename =~ s/[ûùú]/u/g;
-    $tempfilename =~ s/[ÛÙÚ]/U/g;
-    $tempfilename =~ s/[éèêë]/e/g;
-    $tempfilename =~ s/[ÉÈÊË]/E/g;
-    $tempfilename =~ s/[ïìîí]/i/g;
-    $tempfilename =~ s/[ÏÌÎÍ]/I/g;
-    $tempfilename =~ s/[ð]/d/g; # ???
-    $tempfilename =~ s/[Ð]/D/g; # ???
-    $tempfilename =~ s/[ý]/y/g; # ???
-    $tempfilename =~ s/[Ý]/Y/g; # ???
-    $tempfilename =~ s/[äæ]/ae/g;
-    $tempfilename =~ s/[ÄÆ]/Ae/g;
-    $tempfilename =~ s/[ç]/c/g;
-    $tempfilename =~ s/[Ç]/C/g;
+    $tempfilename =~ s/[ï¿½]/ue/g;
+    $tempfilename =~ s/[ï¿½]/Ue/g;
+    $tempfilename =~ s/[ï¿½ï¿½]/oe/g;
+    $tempfilename =~ s/[ï¿½ï¿½]/Oe/g;
+    $tempfilename =~ s/[ï¿½]/ss/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/a/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/A/g;
+    $tempfilename =~ s/[ï¿½]/aa/g;
+    $tempfilename =~ s/[ï¿½]/Aa/g;
+    $tempfilename =~ s/[ï¿½]/n/g;
+    $tempfilename =~ s/[ï¿½]/N/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/o/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/O/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½]/u/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½]/U/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/e/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/E/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/i/g;
+    $tempfilename =~ s/[ï¿½ï¿½ï¿½ï¿½]/I/g;
+    $tempfilename =~ s/[ï¿½]/d/g; # ???
+    $tempfilename =~ s/[ï¿½]/D/g; # ???
+    $tempfilename =~ s/[ï¿½]/y/g; # ???
+    $tempfilename =~ s/[ï¿½]/Y/g; # ???
+    $tempfilename =~ s/[ï¿½ï¿½]/ae/g;
+    $tempfilename =~ s/[ï¿½ï¿½]/Ae/g;
+    $tempfilename =~ s/[ï¿½]/c/g;
+    $tempfilename =~ s/[ï¿½]/C/g;
 
     $tempfilename =~ s/[^a-zA-Z0-9_-]/_/g; # Nothing else allowed other than these chars.
 
