@@ -6065,7 +6065,7 @@ foreach (@toolbaricons) {
 
 BuildWindow($window);
 
-$DISABLED_ENTRY_COLOR = $window->cget('background');
+$DISABLED_ENTRY_COLOR = $window->cget('-background');
 
 my $geometry = $window->geometry();
 
