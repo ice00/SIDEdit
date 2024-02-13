@@ -239,6 +239,8 @@ my $magicIDButtonPSID;
 my $magicIDButtonRSID;
 my $version1Button;
 my $version2Button;
+my $version3Button;
+my $version4Button;
 my $loadAddressEntry;
 my $initAddressEntry;
 my $playAddressEntry;
@@ -1365,7 +1367,7 @@ sub AddSIDfields {
                     -variable => \$SIDfield{'magicID'},
                     -command => sub {RecalcFlags(); },
                     -value => 'PSID')
-                ->grid(-column => 1, -row => $row, -sticky => 'ew');
+                ->grid(-column => 1, -row => $row, -sticky => 'w');
             $tooltip->attach($magicIDButtonPSID, -msg => "The rip is PlaySID compatible.");
 
             $magicIDButtonRSID = $SIDframe->Radiobutton(@noBorder,
@@ -1373,7 +1375,7 @@ sub AddSIDfields {
                     -variable => \$SIDfield{'magicID'},
                     -command => sub {RecalcFlags(); },
                     -value => 'RSID')
-                ->grid(-column => 2, -row => $row, -sticky => 'ew');
+                ->grid(-column => 2, -row => $row, -sticky => 'w');
             $tooltip->attach($magicIDButtonRSID, -msg => "Absolutely requires a true C64\nenvironment to play properly.");
         }
         elsif ($field eq 'version') {
@@ -1382,14 +1384,29 @@ sub AddSIDfields {
                     -variable => \$SIDfield{'version'},
                     -command => sub {$modified = 1; CheckVersion(); },
                     -value => '1')
-                ->grid(-column => 1, -row => $row, -sticky => 'ew');
+                ->grid(-column => 1, -row => $row, -sticky => 'w');
 
             $version2Button = $SIDframe->Radiobutton(@noBorder,
                     -text => "v2/v2NG",
                     -variable => \$SIDfield{'version'},
                     -command => sub {$modified = 1; CheckVersion(); },
                     -value => '2')
-                ->grid(-column => 2, -row => $row, -sticky => 'ew');
+                ->grid(-column => 2, -row => $row, -sticky => 'w');
+
+            $row++;	
+            $version3Button = $SIDframe->Radiobutton(@noBorder,
+                    -text => "v3/v2NG",
+                    -variable => \$SIDfield{'version'},
+                    -command => sub {$modified = 1; CheckVersion(); },
+                    -value => '3')
+                ->grid(-column => 1, -row => $row, -sticky => 'w');
+
+            $version4Button = $SIDframe->Radiobutton(@noBorder,
+                    -text => "v4/v2NG",
+                    -variable => \$SIDfield{'version'},
+                    -command => sub {$modified = 1; CheckVersion(); },
+                    -value => '4')
+                ->grid(-column => 2, -row => $row, -sticky => 'w');               
         }
         elsif ($field eq 'speed') {
             $entry = $SIDframe->Entry(
@@ -1657,6 +1674,8 @@ sub UpdateMagicIDFields {
     if ($SIDfield{'magicID'} eq 'RSID') {
         $version1Button->configure(-state => 'disabled');
         $version2Button->configure(-state => 'disabled');
+     	$version3Button->configure(-state => 'disabled');
+        $version4Button->configure(-state => 'disabled');
         $loadAddressEntry->configure(-state => 'disabled', -background => $DISABLED_ENTRY_COLOR);
         $playAddressEntry->configure(-state => 'disabled', -background => $DISABLED_ENTRY_COLOR);
         $speedEntry->configure(-state => 'disabled', -background => $DISABLED_ENTRY_COLOR);
@@ -1667,6 +1686,8 @@ sub UpdateMagicIDFields {
     else {
         $version1Button->configure(-state => 'normal');
         $version2Button->configure(-state => 'normal');
+        $version3Button->configure(-state => 'normal');
+        $version4Button->configure(-state => 'normal');
         $loadAddressEntry->configure(-state => 'normal', -background => $ENABLED_ENTRY_COLOR);
         $playAddressEntry->configure(-state => 'normal', -background => $ENABLED_ENTRY_COLOR);
         $initAddressEntry->configure(-state => 'normal', -background => $ENABLED_ENTRY_COLOR);
