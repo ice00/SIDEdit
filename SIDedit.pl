@@ -63,6 +63,7 @@ BEGIN {
     use File::Copy;
     use Cwd;
     use strict;
+    use Switch;
 }
 
 ##############################################################################
@@ -165,6 +166,9 @@ my $SaveDirectory = $directory;
 my $HVSCDirectory = $directory;
 my $ShowColors = 1;
 my $AutoHVSCFilename = 0;
+
+use constant SECOND_SID_ADDRESS => 20;
+use constant THIRD_SID_ADDRESS => 40;
 
 if ($isWindows) {
     $DefaultDirectory = $drive . $directory;
@@ -403,7 +407,10 @@ sub CheckMagicID {
             # Replace first two bytes with the actual load address.
             $SIDfield{'data'} = pack('C', $address & 0xFF) . pack('C', ($address >> 8) & 0xFF) . $SIDfield{'data'};
         }
-        $SIDfield{'version'} = 2;
+		# force version 2 on version 1, but leave the other intact.
+        if ($SIDfield{'version'} == 1) {
+			$SIDfield{'version'} = 2;
+		}
         $SIDfield{'loadAddress'} = '$0000';
         $SIDfield{'playAddress'} = '$0000';
         $SIDfield{'speed'} = "0x00000000";
@@ -425,14 +432,35 @@ sub CheckVersion {
         $SIDfield{'reserved'} = "0x0000";
     }
     elsif ($SIDfield{'version'} >= 2) {
+        
         if (HexValue($SIDfield{'dataOffset'}) < 0x7C) {
             $SIDfield{'dataOffset'} = "0x007C";
-        }
-
-        # actually PSID definition is up to 4
-		if ($SIDfield{'version'} > 4) {
-			$SIDfield{'version'} = 4;
-		}
+        };
+		
+		switch ($SIDfield{'version'}) {
+		    case (2)	{
+			    $SIDfield{'secondSIDAddress'} = undef;	
+			    $SIDfield{'thirdSIDAddress'} = undef;	
+			}
+			case (3) {
+				$SIDfield{'thirdSIDAddress'} = undef;
+				if (!defined $SIDfield{'secondSIDAddress'} )	{
+				    $SIDfield{'secondSIDAddress'}=SECOND_SID_ADDRESS;
+			    }
+			}
+			case (4) {
+			    if (!defined $SIDfield{'secondSIDAddress'} )	{
+				    $SIDfield{'secondSIDAddress'}=SECOND_SID_ADDRESS;
+			    }
+			    if (!defined $SIDfield{'thirdSIDAddress'} )	{
+				    $SIDfield{'thirdSIDAddress'}=THIRD_SID_ADDRESS;
+			    }			  
+			}			
+			else { 
+			     # actually PSID definition is up to 4
+			     $SIDfield{'version'} = 4;
+			}
+		}	 
     }
     UpdateSize();
     UpdateV2Fields();
@@ -6070,6 +6098,10 @@ $SIDEDIT_POD = $startdir . $SIDEDIT_POD;
 $SIDEDIT_INI = $startdir . $SIDEDIT_INI;
 
 LoadSettings();
+
+# Audio:SID create a RSID version 4. We force to standard PSID version 2
+$mySID->set('version', 2);
+$mySID->set('magicID', "PSID");
 
 $mySID->alwaysValidateWrite($SaveV2Only);
 
