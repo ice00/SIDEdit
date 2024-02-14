@@ -3789,21 +3789,24 @@ sub Save {
         if (grep(/^$field$/, @hexFields) or
             grep(/^$field$/, @c64hexFields)) {
 
-            next if ($SIDfield{'version'} != 2 and grep(/^$field$/, @v2Fields));
+            next if ($SIDfield{'version'} == 1 and grep(/^$field$/, @v2Fields));
             # Get data out of the hex fields.
             $mySID->set($field, HexValue($SIDfield{$field}, 4));
         }
         elsif (grep(/^$field$/, @longhexFields)) {
-            next if ($SIDfield{'version'} != 2 and grep(/^$field$/, @v2Fields));
+            next if ($SIDfield{'version'} == 1 and grep(/^$field$/, @v2Fields));
             # Get data out of the hex fields.
             $mySID->set($field, HexValue($SIDfield{$field}, 8));
         }
         elsif (grep(/^$field$/, @shorthexFields)) {
-            next if ($SIDfield{'version'} != 2 and grep(/^$field$/, @v2Fields));
+            next if ($SIDfield{'version'} == 1 and grep(/^$field$/, @v2Fields));
             # Get data out of the hex fields.
             $mySID->set($field, HexValue($SIDfield{$field}, 2));
         }
         else {
+            next if ($field == 'secondSIDAddress' and $SIDfield{'version'} <= 2);
+            next if ($field == 'thirdSIDAddress' and $SIDfield{'version'} <=3);
+
             $mySID->set($field, $SIDfield{$field});
         }
     }
