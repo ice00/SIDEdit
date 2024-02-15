@@ -1376,7 +1376,7 @@ sub AddSIDfields {
         next if ($field eq 'data');
 
         unless ($ShowAllFields) {
-            next if (($field ne 'name') and ($field ne 'released') and
+            next if (($field ne 'title') and ($field ne 'released') and
                 ($field ne 'author'));
         }
 
@@ -1596,7 +1596,7 @@ sub AddSIDfields {
             }
             $entry->bind("<FocusIn>", sub {$STATUS = 'Hexadecimal field, range is $0000-$FFFF.';} );
         }
-        elsif ($field eq 'name') {
+        elsif ($field eq 'title') {
             $entry->bind("<Return>", sub { CheckTextLength($field); HVSCLongFilename() if ($AutoHVSCFilename); } );
             $entry->bind("<FocusOut>", sub { CheckTextLength($field); HVSCLongFilename() if ($AutoHVSCFilename); } );
             $entry->bind("<FocusIn>", sub {$STATUS = "Text field, maximum length is 31 characters.";} );
