@@ -167,8 +167,8 @@ my $HVSCDirectory = $directory;
 my $ShowColors = 1;
 my $AutoHVSCFilename = 0;
 
-use constant SECOND_SID_ADDRESS => 20;
-use constant THIRD_SID_ADDRESS => 40;
+use constant SECOND_SID_ADDRESS => 42;
+use constant THIRD_SID_ADDRESS => 44;
 
 if ($isWindows) {
     $DefaultDirectory = $drive . $directory;
@@ -716,9 +716,9 @@ sub FieldsNotValid {
         push (@errorText, "- invalid filename");
     }
 
-    if (($SIDfield{'version'} != 1) and ($SIDfield{'version'} != 2)) {
+    if (($SIDfield{'version'} < 1) and ($SIDfield{'version'} > 4)) {
         push (@errorText, "- version number '$SIDfield{version}' is invalid");
-    }
+    } 
 
     if ((($SIDfield{'version'} == 1) and (HexValue($SIDfield{'dataOffset'}) != 0x76)) or
         (($SIDfield{'version'} == 2) and (HexValue($SIDfield{'dataOffset'}) < 0x7C)) ) {
