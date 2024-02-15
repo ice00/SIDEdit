@@ -1650,6 +1650,18 @@ sub AddSIDfields {
             # $reservedEntry->configure(-state => 'disabled');
             $tooltip->attach($entry, -msg => "Should be set to 0.");
         }
+        elsif ($field eq "secondSIDAddress") {
+            $entry->bind("<Return>", sub {$SIDfield{$field} = sprintf('$%02X', HexValue($SIDfield{$field}, 2)); RecalcMD5(); } );
+            $entry->bind("<FocusOut>", sub {$SIDfield{$field} = sprintf('$%02X', HexValue($SIDfield{$field}, 2)); RecalcMD5(); $STATUS = '';} );
+            $entry->bind("<FocusIn>", sub {$STATUS = 'Hexadecimal field, range is $42-$79 and $E0-$FF.';} );
+            $tooltip->attach($entry, -msg => 'Specifies the second SID addess $Dxx0.');
+        }
+        elsif ($field eq "thirdSIDAddress") {
+            $entry->bind("<Return>", sub {$SIDfield{$field} = sprintf('$%02X', HexValue($SIDfield{$field}, 2)); RecalcMD5(); } );
+            $entry->bind("<FocusOut>", sub {$SIDfield{$field} = sprintf('$%02X', HexValue($SIDfield{$field}, 2)); RecalcMD5(); $STATUS = '';} );
+            $entry->bind("<FocusIn>", sub {$STATUS = 'Hexadecimal field, range is $42-$79 and $E0-$FF.';} );
+            $tooltip->attach($entry, -msg => 'Specifies the third SID addess $Dxx0.');
+        } 
 
         # Setup these bindings so we know when a field got changed.
 
