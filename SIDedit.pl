@@ -3804,11 +3804,11 @@ sub Save {
             $mySID->set($field, HexValue($SIDfield{$field}, 2));
         }
         else {
-            next if ($field == 'secondSIDAddress' and $SIDfield{'version'} <= 2);
-            next if ($field == 'thirdSIDAddress' and $SIDfield{'version'} <=3);
-
+            next if ($field eq 'secondSIDAddress' and $SIDfield{'version'} <= 2);
+            next if ($field eq 'thirdSIDAddress' and $SIDfield{'version'} <=3);
+ 
             $mySID->set($field, $SIDfield{$field});
-        }
+        } 
     }
 
     unless ($mySID->write('-filename' => $SavePath)) {
