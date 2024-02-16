@@ -31,6 +31,8 @@ This script requires the following modules:
 
     File::Copy
 
+    Switch;
+
     Tk
 
     Tk::Balloon
@@ -179,6 +181,8 @@ search capability for Songlength DB, STIL, etc.
 ## VERSION
 
     SIDedit v4.02
+
+    Modified to allow compilation with up to date Perl and Audio::SID library.
 
 ## SEE ALSO
 
